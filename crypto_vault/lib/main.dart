@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:crypto_vault/app_theme.dart';
-import 'package:crypto_vault/screens/onboarding_screen.dart';
+import 'package:crypto_vault/screens/splash_screen.dart';
 import 'package:crypto_vault/routes.dart';
 
 void main() {
@@ -27,8 +27,7 @@ class MyApp extends StatelessWidget {
       title: 'Crypto Vault',
       debugShowCheckedModeBanner: false,
       theme: appTheme(),
-      initialRoute: OnboardingScreen.routeName,
-      // initialRoute: MyHomePage.routeName,
+      home: SplashScreen(),
       routes: routes,
     );
   }

@@ -1,46 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+class HomePage extends StatefulWidget {
+  HomePage({Key key, this.title}) : super(key: key);
 
   static const routeName = '/home';
   final String title;
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _HomePageState createState() => _HomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
-  int _counter;
-
-  @override
-  void initState() {
-    _counter = 0;
-    WidgetsBinding.instance.addObserver(this);
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
-    super.dispose();
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.inactive ||
-        state == AppLifecycleState.detached) {
-      return;
-    }
-
-    if (state == AppLifecycleState.paused) {
-      SystemNavigator.pop();
-      // SystemChannels.platform.invokeMethod('SystemNavigator.pop');
-    }
-
-    super.didChangeAppLifecycleState(state);
-  }
+class _HomePageState extends State<HomePage> {
+  int _counter = 0;
 
   void _incrementCounter() {
     setState(() {

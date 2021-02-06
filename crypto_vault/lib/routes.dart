@@ -5,5 +5,5 @@ import 'package:crypto_vault/screens/home_screen.dart';
 
 final Map<String, WidgetBuilder> routes = {
   OnboardingScreen.routeName: (context) => OnboardingScreen(),
-  MyHomePage.routeName: (context) => MyHomePage(title: 'HaHa'),
+  HomePage.routeName: (context) => HomePage(title: 'CryptoVault'),
 };

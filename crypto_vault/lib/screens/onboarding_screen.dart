@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:crypto_vault/constants.dart';
@@ -52,7 +51,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   void doneBtnPressHandler(BuildContext ctx) {
     // Navigator.of(ctx).popAndPushNamed(MyHomePage.routeName);
-    Navigator.of(ctx).pushReplacementNamed(MyHomePage.routeName);
+    Navigator.of(ctx).pushReplacementNamed(HomePage.routeName);
   }
 
   @override
