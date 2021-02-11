@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<resources>
+    <color name="primary_color">#34bacc</color>
+    <color name="secondary_color">#32537f</color>
+    <color name="background_color_light">#1d314c</color>
+    <color name="background_color">#172438</color>
+    <color name="background_color_dark">#142034</color>
+    <color name="text_light">#cad4e7</color>
+    <color name="blue">#149bfe</color>
+    <color name="purple">#b76ffb</color>
+</resources>

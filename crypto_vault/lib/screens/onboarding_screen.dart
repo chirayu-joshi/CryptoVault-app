@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:crypto_vault/constants.dart';
 import 'package:crypto_vault/data/onboarding_data.dart';
 import 'package:crypto_vault/widgets/onboarding_slide.dart';
@@ -49,9 +51,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     );
   }
 
-  void doneBtnPressHandler(BuildContext ctx) {
+  void doneBtnPressHandler(BuildContext ctx) async {
     // Navigator.of(ctx).popAndPushNamed(MyHomePage.routeName);
     Navigator.of(ctx).pushReplacementNamed(HomePage.routeName);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('firstTime', false);
   }
 
   @override

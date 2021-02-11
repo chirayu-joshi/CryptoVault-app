@@ -5,6 +5,7 @@ import 'package:after_layout/after_layout.dart';
 
 import 'package:crypto_vault/screens/home_screen.dart';
 import 'package:crypto_vault/screens/onboarding_screen.dart';
+import 'package:crypto_vault/constants.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -15,13 +16,12 @@ class _SplashScreenState extends State<SplashScreen>
     with AfterLayoutMixin<SplashScreen> {
   Future checkFirstTime() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool _firstTime = (prefs.getBool('firstTime') ?? false);
+    bool _firstTime = (prefs.getBool('firstTime') ?? true);
 
     if (_firstTime) {
-      Navigator.of(context).pushReplacementNamed(HomePage.routeName);
-    } else {
-      await prefs.setBool('firstTime', true);
       Navigator.of(context).pushReplacementNamed(OnboardingScreen.routeName);
+    } else {
+      Navigator.of(context).pushReplacementNamed(HomePage.routeName);
     }
   }
 
@@ -30,10 +30,8 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Text('Loading...'),
-      ),
+    return Container(
+      color: backgroundColor,
     );
   }
 }
