@@ -5,6 +5,7 @@ import 'package:after_layout/after_layout.dart';
 
 import 'package:crypto_vault/screens/home_screen.dart';
 import 'package:crypto_vault/screens/onboarding_screen.dart';
+import 'package:crypto_vault/screens/create_master_password_screen.dart';
 import 'package:crypto_vault/constants.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -17,9 +18,14 @@ class _SplashScreenState extends State<SplashScreen>
   Future checkFirstTime() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool _firstTime = (prefs.getBool('firstTime') ?? true);
+    bool _hasHashMasterPassword =
+      (prefs.getBool('hasHashMasterPassword') ?? true);
 
     if (_firstTime) {
       Navigator.of(context).pushReplacementNamed(OnboardingScreen.routeName);
+    } else if (_hasHashMasterPassword) {
+      Navigator.of(context)
+          .pushReplacementNamed(CreateMasterPasswordScreen.routeName);
     } else {
       Navigator.of(context).pushReplacementNamed(HomePage.routeName);
     }

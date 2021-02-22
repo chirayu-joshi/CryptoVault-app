@@ -6,7 +6,7 @@ import 'package:crypto_vault/constants.dart';
 import 'package:crypto_vault/data/onboarding_data.dart';
 import 'package:crypto_vault/widgets/onboarding_slide.dart';
 import 'package:crypto_vault/widgets/custom_button.dart';
-import 'package:crypto_vault/screens/home_screen.dart';
+import 'package:crypto_vault/screens/create_master_password_screen.dart';
 
 class OnboardingScreen extends StatefulWidget {
   static const routeName = '/onboarding';
@@ -52,8 +52,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   void doneBtnPressHandler(BuildContext ctx) async {
-    // Navigator.of(ctx).popAndPushNamed(MyHomePage.routeName);
-    Navigator.of(ctx).pushReplacementNamed(HomePage.routeName);
+    Navigator.of(ctx)
+        .pushReplacementNamed(CreateMasterPasswordScreen.routeName);
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool('firstTime', false);
   }
@@ -120,7 +120,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 ),
                 _currPage == SLIDES.length - 1
                     ? CustomButton(
-                        onTap: () {doneBtnPressHandler(context);},
+                        onTap: () {
+                          doneBtnPressHandler(context);
+                        },
                         text: 'DONE',
                       )
                     : CustomButton(
