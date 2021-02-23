@@ -26,6 +26,7 @@ dependencies:
   provider: ^4.3.3
   shared_preferences: ^0.5.12+4
   after_layout: ^1.0.7+2
+  flutter_bcrypt: ^1.0.5
 
 
   # The following adds the Cupertino Icons font to your application.

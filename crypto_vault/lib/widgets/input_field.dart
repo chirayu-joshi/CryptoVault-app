@@ -4,21 +4,33 @@ import 'package:crypto_vault/constants.dart';
 
 class InputField extends StatelessWidget {
   final hintText;
+  final controller;
   final prefixIcon;
   final suffixIcon;
   final isPassword;
+  final Function onSubmitted;
+  final focusNode;
+  final textInputAction;
+  final Function onTap;
 
   InputField({
     @required this.hintText,
+    @required this.controller,
     this.prefixIcon,
     this.suffixIcon,
-    this.isPassword=false,
+    this.isPassword = false,
+    this.onSubmitted,
+    this.focusNode,
+    this.textInputAction,
+    this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextField(
+      onTap: onTap,
       obscureText: isPassword,
+      textInputAction: textInputAction,
       style: TextStyle(
         fontSize: 16,
         color: textLight,
@@ -41,8 +53,10 @@ class InputField extends StatelessWidget {
           borderSide: BorderSide(color: textLight),
         ),
       ),
+      controller: controller,
+      focusNode: focusNode,
       onSubmitted: (value) {
-        print(value);
+        onSubmitted(value);
       },
     );
   }

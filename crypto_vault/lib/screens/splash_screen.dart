@@ -18,12 +18,11 @@ class _SplashScreenState extends State<SplashScreen>
   Future checkFirstTime() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool _firstTime = (prefs.getBool('firstTime') ?? true);
-    bool _hasHashMasterPassword =
-      (prefs.getBool('hasHashMasterPassword') ?? true);
+    bool _hasHashMasterPassword = (prefs.getString('pwHash') != null);
 
     if (_firstTime) {
       Navigator.of(context).pushReplacementNamed(OnboardingScreen.routeName);
-    } else if (_hasHashMasterPassword) {
+    } else if (!_hasHashMasterPassword) {
       Navigator.of(context)
           .pushReplacementNamed(CreateMasterPasswordScreen.routeName);
     } else {

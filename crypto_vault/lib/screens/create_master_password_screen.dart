@@ -3,9 +3,14 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_bcrypt/flutter_bcrypt.dart';
+
 import 'package:crypto_vault/constants.dart';
 import 'package:crypto_vault/widgets/input_field.dart';
 import 'package:crypto_vault/widgets/wide_button.dart';
+import 'package:crypto_vault/widgets/scroll_column_expandable.dart';
+import 'package:crypto_vault/screens/home_screen.dart';
 
 class CreateMasterPasswordScreen extends StatefulWidget {
   static const routeName = '/createMasterPassword';
@@ -37,7 +42,17 @@ class _CreateMasterPasswordScreenState
 
   double _loginOpacity = 0;
 
+  bool _isKeyboardOpen = false;
+
   bool _showPass = false;
+
+  final _masterPwController = TextEditingController();
+  final _confirmPwController = TextEditingController();
+  bool _isMasterPwValid = false;
+  bool _didPwMatch = true;
+  String _errorMessage = '';
+
+  FocusNode _confirmPwFocusNode;
 
   _CreateMasterPasswordScreenState() {
     _timer = Timer(const Duration(milliseconds: 1000), () {
@@ -47,9 +62,87 @@ class _CreateMasterPasswordScreenState
     });
   }
 
+  void _pwChangeHandler() {
+    String _pw = _masterPwController.text;
+    if (_pw.length < 10) {
+      setState(() {
+        _errorMessage = 'At least 10 characters are required.';
+        _isMasterPwValid = false;
+      });
+    } else if (!RegExp(r'[A-Z]').hasMatch(_pw)) {
+      setState(() {
+        _errorMessage = 'At least 1 uppercase character is required.';
+        _isMasterPwValid = false;
+      });
+    } else if (!RegExp(r'[0-9]').hasMatch(_pw)) {
+      setState(() {
+        _errorMessage = 'At least 1 digit is required.';
+        _isMasterPwValid = false;
+      });
+    } else if (!RegExp(r'[!@#$%^&*]').hasMatch(_pw)) {
+      setState(() {
+        _errorMessage =
+            r'At least 1 special symbol (from !@#$%^&*) is required.';
+        _isMasterPwValid = false;
+      });
+    } else {
+      setState(() {
+        _errorMessage = '';
+        _isMasterPwValid = true;
+      });
+    }
+  }
+
+  void _confirmPwChangeHandler() {
+    if (_isMasterPwValid &&
+        _masterPwController.text == _confirmPwController.text) {
+      setState(() {
+        _didPwMatch = true;
+      });
+    }
+  }
+
+  void _savePasswordBtnPressHandler(BuildContext ctx) async {
+    if (!_isMasterPwValid) {
+      return;
+    }
+
+    if (_masterPwController.text != _confirmPwController.text) {
+      setState(() {
+        _didPwMatch = false;
+      });
+      return;
+    } else {
+      setState(() {
+        _didPwMatch = true;
+      });
+    }
+
+    Navigator.of(ctx).pushReplacementNamed(HomePage.routeName);
+
+    final String _pw = _masterPwController.text;
+    final String _salt10 = await FlutterBcrypt.saltWithRounds(rounds: 10);
+    final String _pwHash =
+        await FlutterBcrypt.hashPw(password: _pw, salt: _salt10);
+
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    await _prefs.setString('pwHash', _pwHash);
+  }
+
+  @override
+  void initState() {
+    _masterPwController.addListener(_pwChangeHandler);
+    _confirmPwController.addListener(_confirmPwChangeHandler);
+    _confirmPwFocusNode = FocusNode();
+    super.initState();
+  }
+
   @override
   void dispose() {
     _timer.cancel();
+    _masterPwController.dispose();
+    _confirmPwController.dispose();
+    _confirmPwFocusNode.dispose();
     super.dispose();
   }
 
@@ -57,6 +150,7 @@ class _CreateMasterPasswordScreenState
   Widget build(BuildContext context) {
     _windowHeight = MediaQuery.of(context).size.height;
     _windowWidth = MediaQuery.of(context).size.width;
+    _isKeyboardOpen = MediaQuery.of(context).viewInsets.bottom != 0;
 
     if (_pageState == 0) {
       _loginYOffset = _windowHeight;
@@ -69,10 +163,10 @@ class _CreateMasterPasswordScreenState
       _loginWidth = _windowWidth - 50;
       _loginOpacity = 0.5;
       _loginXOffset = 25;
-      _loginYOffset = 245;
+      _loginYOffset = _isKeyboardOpen ? 45 : 245;
       _loginHeight = _windowHeight - 245;
 
-      _createYOffset = 270;
+      _createYOffset = _isKeyboardOpen ? 70 : 270;
       _createHeight = _windowHeight - 270;
     } else {
       _heading = 'Welcome Back!';
@@ -124,12 +218,45 @@ class _CreateMasterPasswordScreenState
                 Matrix4.translationValues(_loginXOffset, _loginYOffset, 1),
             width: _loginWidth,
             height: _loginHeight,
+            padding: EdgeInsets.symmetric(horizontal: 48),
             decoration: BoxDecoration(
               color: backgroundColorLight.withOpacity(_loginOpacity),
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(32.0),
                 topRight: Radius.circular(32.0),
               ),
+            ),
+            child: ScrollColumnExpandable(
+              children: <Widget>[
+                SizedBox(
+                  height: 40,
+                  width: double.infinity,
+                ),
+                Text(
+                  'Coming soon...',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
+                ),
+                Spacer(),
+                Container(
+                  padding: EdgeInsets.symmetric(vertical: 32),
+                  child: Column(
+                    children: <Widget>[
+                      WideButton(
+                        onPressed: () {
+                          setState(() {
+                            _pageState = 1;
+                          });
+                        },
+                        text: 'Create Password',
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ),
           AnimatedContainer(
@@ -145,7 +272,7 @@ class _CreateMasterPasswordScreenState
                 topRight: Radius.circular(32.0),
               ),
             ),
-            child: Column(
+            child: ScrollColumnExpandable(
               children: <Widget>[
                 SizedBox(
                   height: 40,
@@ -162,35 +289,73 @@ class _CreateMasterPasswordScreenState
                 SizedBox(
                   height: 32,
                 ),
-                Flexible(
-                  fit: FlexFit.tight,
-                  child: InputField(
-                    hintText: 'Master Password',
-                    isPassword: !_showPass,
-                    prefixIcon: Icon(
-                      Icons.vpn_key,
-                    ),
-                    suffixIcon: IconButton(
-                      icon: Icon(
-                        _showPass ? Icons.security : Icons.remove_red_eye,
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    InputField(
+                      controller: _masterPwController,
+                      hintText: 'Master Password',
+                      textInputAction: TextInputAction.next,
+                      isPassword: !_showPass,
+                      prefixIcon: Icon(
+                        Icons.vpn_key,
                       ),
-                      onPressed: () {
-                        setState(() {
-                          _showPass = !_showPass;
-                        });
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _showPass ? Icons.security : Icons.remove_red_eye,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _showPass = !_showPass;
+                          });
+                        },
+                      ),
+                      onSubmitted: (_) {
+                        _confirmPwFocusNode.requestFocus();
                       },
                     ),
-                  ),
+                    if (_errorMessage != '')
+                      Text(
+                        _errorMessage,
+                      ),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    InputField(
+                      controller: _confirmPwController,
+                      hintText: 'Confirm Password',
+                      focusNode: _confirmPwFocusNode,
+                      isPassword: !_showPass,
+                      prefixIcon: Icon(
+                        Icons.vpn_key,
+                      ),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _showPass ? Icons.security : Icons.remove_red_eye,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _showPass = !_showPass;
+                          });
+                        },
+                      ),
+                      onSubmitted: (_) {
+                        _savePasswordBtnPressHandler(context);
+                      },
+                    ),
+                    Text(
+                      _didPwMatch ? '' : 'Password did\'t match.',
+                    ),
+                  ],
                 ),
+                Spacer(),
                 Container(
                   padding: EdgeInsets.symmetric(vertical: 32),
                   child: Column(
                     children: <Widget>[
                       WideButton(
                         onPressed: () {
-                          setState(() {
-                            _pageState = 2;
-                          });
+                          _savePasswordBtnPressHandler(context);
                         },
                         text: 'Save Password',
                         isMain: true,
