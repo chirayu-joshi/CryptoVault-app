@@ -18,13 +18,13 @@ class WideButton extends StatelessWidget {
     return ButtonTheme(
       minWidth: double.infinity,
       padding: EdgeInsets.symmetric(vertical: 20),
-      buttonColor: isMain ? Colors.white : backgroundColorLight,
+      buttonColor: isMain ? textLight : backgroundColorLight,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
         side: isMain
             ? BorderSide()
             : BorderSide(
-                color: Colors.white,
+                color: textLight,
                 width: 2,
               ),
       ),
@@ -36,7 +36,7 @@ class WideButton extends StatelessWidget {
             fontSize: 16,
           ),
         ),
-        textColor: isMain ? backgroundColorLight : Colors.white,
+        textColor: isMain ? backgroundColorLight : textLight
       ),
     );
   }

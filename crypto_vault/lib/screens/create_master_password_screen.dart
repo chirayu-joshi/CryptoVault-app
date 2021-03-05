@@ -1,12 +1,14 @@
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_bcrypt/flutter_bcrypt.dart';
+import 'package:provider/provider.dart';
 
 import 'package:crypto_vault/constants.dart';
+import 'package:crypto_vault/providers/local_auth.dart';
 import 'package:crypto_vault/widgets/input_field.dart';
 import 'package:crypto_vault/widgets/wide_button.dart';
 import 'package:crypto_vault/widgets/scroll_column_expandable.dart';
@@ -118,7 +120,9 @@ class _CreateMasterPasswordScreenState
       });
     }
 
-    Navigator.of(ctx).pushReplacementNamed(HomePage.routeName);
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      Navigator.of(ctx).pushReplacementNamed(HomePage.routeName);
+    });
 
     final String _pw = _masterPwController.text;
     final String _salt10 = await FlutterBcrypt.saltWithRounds(rounds: 10);
@@ -127,6 +131,8 @@ class _CreateMasterPasswordScreenState
 
     SharedPreferences _prefs = await SharedPreferences.getInstance();
     await _prefs.setString('pwHash', _pwHash);
+
+    Provider.of<LocalAuth>(ctx, listen: false).login(_pw);
   }
 
   @override

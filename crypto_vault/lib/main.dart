@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'package:provider/provider.dart';
+
 import 'package:crypto_vault/app_theme.dart';
+import 'package:crypto_vault/providers/local_auth.dart';
 import 'package:crypto_vault/screens/splash_screen.dart';
 import 'package:crypto_vault/routes.dart';
 
@@ -23,12 +26,15 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Crypto Vault',
-      debugShowCheckedModeBanner: false,
-      theme: appTheme(),
-      home: SplashScreen(),
-      routes: routes,
+    return ChangeNotifierProvider(
+      create: (ctx) => LocalAuth(),
+      child: MaterialApp(
+        title: 'Crypto Vault',
+        debugShowCheckedModeBanner: false,
+        theme: appTheme(),
+        home: SplashScreen(),
+        routes: routes,
+      ),
     );
   }
 }

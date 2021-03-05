@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+import 'package:provider/provider.dart';
+
+import 'package:crypto_vault/providers/local_auth.dart';
+
 class HomePage extends StatefulWidget {
   HomePage({Key key, this.title}) : super(key: key);
 
@@ -21,6 +25,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    // print(Provider.of<LocalAuth>(context, listen: false).isAuthenticated);
+    // print(Provider.of<LocalAuth>(context, listen: false).masterPw);
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
