@@ -5,13 +5,18 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class LocalAuth with ChangeNotifier {
   String _masterPw;
+  bool _isFingerprintCorrect = false;
 
   bool get isAuthenticated {
-    return _masterPw != null;
+    return _masterPw != null && _isFingerprintCorrect;
   }
 
   String get masterPw {
     return _masterPw;
+  }
+
+  set fingerprintStatus (bool status) {
+    this._isFingerprintCorrect = status;
   }
 
   Future<void> login(String pw) async {

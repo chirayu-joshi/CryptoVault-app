@@ -2,8 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter/services.dart';
 
 import 'package:provider/provider.dart';
+import 'package:local_auth/local_auth.dart';
 
 import 'package:crypto_vault/providers/local_auth.dart';
 import 'package:crypto_vault/screens/home_screen.dart';
@@ -20,8 +22,6 @@ class LocalLoginScreen extends StatefulWidget {
 }
 
 class _LocalLoginScreenState extends State<LocalLoginScreen> {
-  // biometrics
-
   Timer _timer;
 
   int _pageState = 0;
@@ -37,6 +37,9 @@ class _LocalLoginScreenState extends State<LocalLoginScreen> {
   String _errorMessage = '';
 
   bool _showPass = false;
+
+  final LocalAuthentication _fingerprintAuth = LocalAuthentication();
+  String _fingerprintMessage = 'Not Authorized';
 
   _LocalLoginScreenState() {
     _timer = Timer(const Duration(milliseconds: 1000), () {
@@ -77,6 +80,47 @@ class _LocalLoginScreenState extends State<LocalLoginScreen> {
     }
   }
 
+  Future<bool> _checkBiometrics() async {
+    bool canCheckBiometric;
+    try {
+      canCheckBiometric = await _fingerprintAuth.canCheckBiometrics;
+    } on PlatformException catch (e) {
+      print(e);
+    }
+    if (!mounted) {
+      return false;
+    }
+    return canCheckBiometric;
+  }
+
+  Future<List<BiometricType>> _getAvailableBiometric() async {
+    List<BiometricType> availableBiometric;
+    try {
+      availableBiometric = await _fingerprintAuth.getAvailableBiometrics();
+    } on PlatformException catch (e) {
+      print(e);
+    }
+    return availableBiometric;
+  }
+
+  Future<bool> _fingerprintAuthenticate() async {
+    bool isFingerprintAuthenticated = false;
+    try {
+      isFingerprintAuthenticated = await _fingerprintAuth.authenticate(
+        localizedReason: "Scan your finger to login",
+        useErrorDialogs: true,
+        stickyAuth: false,
+      );
+    } on PlatformException catch (e) {
+      isFingerprintAuthenticated = null;
+      print(e);
+    }
+    if (!mounted) {
+      return false;
+    }
+    return isFingerprintAuthenticated;
+  }
+
   void _loginBtnPressHandler(BuildContext ctx) async {
     if (!_isMasterPwValid) {
       return;
@@ -86,16 +130,32 @@ class _LocalLoginScreenState extends State<LocalLoginScreen> {
     final _localAuthProvider = Provider.of<LocalAuth>(ctx, listen: false);
 
     await _localAuthProvider.login(_pw);
-    if (_localAuthProvider.isAuthenticated) {
-      SchedulerBinding.instance.addPostFrameCallback((_) {
-        Navigator.of(ctx).pushReplacementNamed(HomePage.routeName);
-      });
+    if (_localAuthProvider.masterPw != null) {
       setState(() {
         _errorMessage = '';
       });
+      // biometrics
+      bool _canCheckBiometric = await _checkBiometrics();
+      List<BiometricType> _availableBiometrics = await _getAvailableBiometric();
+      bool _isFingerprintAuthorized = await _fingerprintAuthenticate();
+
+      if (_canCheckBiometric == false ||
+          _availableBiometrics.length == 0 ||
+          _isFingerprintAuthorized == null) {
+        _localAuthProvider.fingerprintStatus = true;
+      } else {
+        _localAuthProvider.fingerprintStatus = _isFingerprintAuthorized;
+      }
     } else {
       setState(() {
         _errorMessage = 'Entered password is incorrect.';
+      });
+      return;
+    }
+
+    if (_localAuthProvider.isAuthenticated) {
+      SchedulerBinding.instance.addPostFrameCallback((_) {
+        Navigator.of(ctx).pushReplacementNamed(HomePage.routeName);
       });
     }
   }
@@ -103,6 +163,8 @@ class _LocalLoginScreenState extends State<LocalLoginScreen> {
   @override
   void initState() {
     _masterPwController.addListener(_pwChangeHandler);
+    _checkBiometrics();
+    _getAvailableBiometric();
     super.initState();
   }
 
@@ -158,8 +220,7 @@ class _LocalLoginScreenState extends State<LocalLoginScreen> {
           AnimatedContainer(
             duration: Duration(milliseconds: 1000),
             curve: Curves.fastLinearToSlowEaseIn,
-            transform:
-                Matrix4.translationValues(0, _loginYOffset, 1),
+            transform: Matrix4.translationValues(0, _loginYOffset, 1),
             // height: _windowHeight - 240,
             height: _loginHeight,
             padding: EdgeInsets.symmetric(horizontal: 48),
