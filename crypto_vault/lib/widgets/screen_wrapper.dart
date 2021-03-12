@@ -57,20 +57,22 @@ class _ScreenWrapperState extends State<ScreenWrapper> {
         curve: Curves.fastLinearToSlowEaseIn,
         transform: Matrix4.translationValues(_xOffset, _yOffset, 0)
           ..scale(_scaleFactor),
-        padding: EdgeInsets.symmetric(
-          horizontal: 8,
-          vertical: 32,
-        ),
         duration: Duration(milliseconds: 700),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            IconButton(
-              icon: AnimatedIcon(
-                icon: AnimatedIcons.menu_arrow,
-                progress: widget.menuArrowAnimationController,
+            Padding(
+              padding: EdgeInsets.only(
+                left: 8,
+                top: 32,
               ),
-              onPressed: widget.toggleDrawer,
+              child: IconButton(
+                icon: AnimatedIcon(
+                  icon: AnimatedIcons.menu_arrow,
+                  progress: widget.menuArrowAnimationController,
+                ),
+                onPressed: widget.toggleDrawer,
+              ),
             ),
             Flexible(child: widget.screen),
           ],
