@@ -1,9 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'package:provider/provider.dart';
+
 import 'package:crypto_vault/constants.dart';
+import 'package:crypto_vault/providers/local_auth.dart';
 import 'package:crypto_vault/data/screen_data.dart';
 import 'package:crypto_vault/widgets/drawer_item.dart';
+import 'package:crypto_vault/screens/local_login_screen.dart';
 
 class DrawerScreen extends StatelessWidget {
   final List<Widget> _drawerItems = [];
@@ -24,7 +28,7 @@ class DrawerScreen extends StatelessWidget {
       height: double.infinity,
       width: double.infinity,
       color: primaryColor,
-      padding: EdgeInsets.only(top: 64, left: 16, bottom: 48),
+      padding: EdgeInsets.only(top: 64, left: 16, bottom: 32),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -47,14 +51,20 @@ class DrawerScreen extends StatelessWidget {
               children: _drawerItems,
             ),
           ),
-          Padding(
-            padding: EdgeInsets.only(left: 8),
-            child: Text(
-              'Lock',
-              style: TextStyle(
-                fontSize: 16,
-                color: backgroundColorDark,
-              ),
+          FlatButton.icon(
+            onPressed: () {
+              Provider.of<LocalAuth>(context, listen: false).logout();
+              Navigator.of(context)
+                  .pushReplacementNamed(LocalLoginScreen.routeName);
+            },
+            icon: Icon(
+              Icons.lock,
+              size: 18,
+              color: backgroundColorDark,
+            ),
+            label: Text(
+              'LOCK',
+              style: TextStyle(fontSize: 14, color: backgroundColorDark),
             ),
           ),
         ],

@@ -9,7 +9,10 @@ class WebAccessScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Text('Web Access Screen'),
+      child: Text(
+        'Web Access Screen',
+        style: Theme.of(context).textTheme.headline5,
+      ),
     );
   }
 }

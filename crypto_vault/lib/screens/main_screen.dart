@@ -23,7 +23,7 @@ class _MainScreenState extends State<MainScreen>
     _menuArrowAnimationController = AnimationController(
       vsync: this,
       duration: Duration(milliseconds: 800),
-      reverseDuration: Duration(milliseconds: 500),
+      reverseDuration: Duration(milliseconds: 400),
     );
     super.initState();
   }
@@ -43,6 +43,20 @@ class _MainScreenState extends State<MainScreen>
     });
   }
 
+  void _openDrawerHandler() {
+    setState(() {
+      _isDrawerOpen = true;
+      _menuArrowAnimationController.forward();
+    });
+  }
+
+  void _closeDrawerHandler() {
+    setState(() {
+      _isDrawerOpen = false;
+      _menuArrowAnimationController.reverse();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final _currScreen = Provider.of<Screens>(context).currScreen;
@@ -56,6 +70,8 @@ class _MainScreenState extends State<MainScreen>
             screen: _currScreen,
             isDrawerOpen: _isDrawerOpen,
             toggleDrawer: _toggleDrawerHandler,
+            openDrawer: _openDrawerHandler,
+            closeDrawer: _closeDrawerHandler,
             menuArrowAnimationController: _menuArrowAnimationController,
           ),
         ],

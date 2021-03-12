@@ -6,12 +6,16 @@ class ScreenWrapper extends StatefulWidget {
   final screen;
   final isDrawerOpen;
   final Function toggleDrawer;
+  final Function openDrawer;
+  final Function closeDrawer;
   final AnimationController menuArrowAnimationController;
 
   ScreenWrapper({
     @required this.screen,
     @required this.isDrawerOpen,
     @required this.toggleDrawer,
+    @required this.openDrawer,
+    @required this.closeDrawer,
     @required this.menuArrowAnimationController,
   });
 
@@ -35,33 +39,42 @@ class _ScreenWrapperState extends State<ScreenWrapper> {
       _yOffset = 0;
       _scaleFactor = 1;
     }
-    return AnimatedContainer(
-      height: double.infinity,
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: backgroundColor,
-        borderRadius: BorderRadius.circular(widget.isDrawerOpen ? 40 : 0),
-      ),
-      curve: Curves.fastLinearToSlowEaseIn,
-      transform: Matrix4.translationValues(_xOffset, _yOffset, 0)
-        ..scale(_scaleFactor),
-      padding: EdgeInsets.symmetric(
-        horizontal: 8,
-        vertical: 32,
-      ),
-      duration: Duration(milliseconds: 700),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          IconButton(
-            icon: AnimatedIcon(
-              icon: AnimatedIcons.menu_arrow,
-              progress: widget.menuArrowAnimationController,
+    return GestureDetector(
+      onHorizontalDragUpdate: (event) {
+        if (event.delta.dx < 0) {
+          widget.closeDrawer();
+        } else if (event.delta.dx > 0 && event.localPosition.dx < 60) {
+          widget.openDrawer();
+        }
+      },
+      child: AnimatedContainer(
+        height: double.infinity,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          color: backgroundColor,
+          borderRadius: BorderRadius.circular(widget.isDrawerOpen ? 40 : 0),
+        ),
+        curve: Curves.fastLinearToSlowEaseIn,
+        transform: Matrix4.translationValues(_xOffset, _yOffset, 0)
+          ..scale(_scaleFactor),
+        padding: EdgeInsets.symmetric(
+          horizontal: 8,
+          vertical: 32,
+        ),
+        duration: Duration(milliseconds: 700),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            IconButton(
+              icon: AnimatedIcon(
+                icon: AnimatedIcons.menu_arrow,
+                progress: widget.menuArrowAnimationController,
+              ),
+              onPressed: widget.toggleDrawer,
             ),
-            onPressed: widget.toggleDrawer,
-          ),
-          Flexible(child: widget.screen),
-        ],
+            Flexible(child: widget.screen),
+          ],
+        ),
       ),
     );
   }

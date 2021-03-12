@@ -9,7 +9,10 @@ class SecureNotesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Text('Secure Notes Screen'),
+      child: Text(
+        'Secure Notes Screen',
+        style: Theme.of(context).textTheme.headline5,
+      ),
     );
   }
 }

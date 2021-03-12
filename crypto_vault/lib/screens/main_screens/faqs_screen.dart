@@ -9,7 +9,10 @@ class FaqsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Text('FAQs Screen'),
+      child: Text(
+        'FAQs Screen',
+        style: Theme.of(context).textTheme.headline5,
+      ),
     );
   }
 }

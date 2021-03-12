@@ -26,7 +26,7 @@ class DrawerItem extends StatelessWidget {
       },
       child: Container(
         width: double.infinity,
-        padding: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 8),
         decoration: BoxDecoration(
           color: screensData.screenName == title
               ? Colors.white30
@@ -36,15 +36,12 @@ class DrawerItem extends StatelessWidget {
         child: Row(
           children: <Widget>[
             icon,
-            SizedBox(width: 8),
-            FittedBox(
-              fit: BoxFit.scaleDown,
-              child: Text(
-                title,
-                style: TextStyle(
-                  fontSize: 18,
-                  color: backgroundColorDark,
-                ),
+            SizedBox(width: 12),
+            Text(
+              title,
+              style: TextStyle(
+                fontSize: 18,
+                color: backgroundColorDark,
               ),
             ),
           ],
