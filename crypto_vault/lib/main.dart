@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 import 'package:crypto_vault/app_theme.dart';
 import 'package:crypto_vault/providers/local_auth.dart';
+import 'package:crypto_vault/providers/screens.dart';
 import 'package:crypto_vault/screens/splash_screen.dart';
 import 'package:crypto_vault/routes.dart';
 
@@ -26,8 +27,11 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (ctx) => LocalAuth(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (ctx) => LocalAuth()),
+        ChangeNotifierProvider(create: (ctx) => Screens()),
+      ],
       child: MaterialApp(
         title: 'Crypto Vault',
         debugShowCheckedModeBanner: false,
