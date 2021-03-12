@@ -6,49 +6,23 @@ class ScreenWrapper extends StatefulWidget {
   final screen;
   final isDrawerOpen;
   final Function toggleDrawer;
+  final AnimationController menuArrowAnimationController;
 
   ScreenWrapper({
     @required this.screen,
     @required this.isDrawerOpen,
     @required this.toggleDrawer,
+    @required this.menuArrowAnimationController,
   });
 
   @override
   _ScreenWrapperState createState() => _ScreenWrapperState();
 }
 
-class _ScreenWrapperState extends State<ScreenWrapper>
-    with SingleTickerProviderStateMixin {
+class _ScreenWrapperState extends State<ScreenWrapper> {
   double _xOffset;
   double _yOffset;
   double _scaleFactor;
-
-  AnimationController _menuArrowAnimationController;
-
-  @override
-  void initState() {
-    _menuArrowAnimationController = AnimationController(
-      vsync: this,
-      duration: Duration(milliseconds: 1000),
-      reverseDuration: Duration(milliseconds: 500),
-    );
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _menuArrowAnimationController.dispose();
-    super.dispose();
-  }
-
-  void _toggleDrawer() {
-    widget.toggleDrawer();
-    setState(() {
-      widget.isDrawerOpen
-          ? _menuArrowAnimationController.reverse()
-          : _menuArrowAnimationController.forward();
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,22 +42,23 @@ class _ScreenWrapperState extends State<ScreenWrapper>
         color: backgroundColor,
         borderRadius: BorderRadius.circular(widget.isDrawerOpen ? 40 : 0),
       ),
+      curve: Curves.fastLinearToSlowEaseIn,
       transform: Matrix4.translationValues(_xOffset, _yOffset, 0)
         ..scale(_scaleFactor),
       padding: EdgeInsets.symmetric(
         horizontal: 8,
         vertical: 32,
       ),
-      duration: Duration(milliseconds: 250),
+      duration: Duration(milliseconds: 700),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           IconButton(
             icon: AnimatedIcon(
               icon: AnimatedIcons.menu_arrow,
-              progress: _menuArrowAnimationController,
+              progress: widget.menuArrowAnimationController,
             ),
-            onPressed: _toggleDrawer,
+            onPressed: widget.toggleDrawer,
           ),
           Flexible(child: widget.screen),
         ],
