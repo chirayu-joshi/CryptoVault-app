@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
 
-import 'package:crypto_vault/screens/home_screen.dart';
+import 'package:crypto_vault/data/screen_data.dart';
+import 'package:crypto_vault/screens/main_screens/home_screen.dart';
 
 class Screens with ChangeNotifier {
-  final _screens = {
-    HomeScreen.screenName: HomeScreen(),
-  };
   String _screenName = HomeScreen.screenName;
 
+  String get screenName {
+    return _screenName;
+  }
+
   Widget get currScreen {
-    return _screens[_screenName];
+    return screens[_screenName].screen;
   }
 
   void changeScreen(String screenName) {
-    if (_screens.containsKey(screenName)) {
+    if (screens.containsKey(screenName)) {
       _screenName = screenName;
       notifyListeners();
     }
