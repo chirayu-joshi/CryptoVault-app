@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:local_auth/local_auth.dart';
 
 import 'package:crypto_vault/providers/local_auth.dart';
-import 'package:crypto_vault/screens/home_screen.dart';
+import 'package:crypto_vault/screens/main_screen.dart';
 import 'package:crypto_vault/widgets/input_field.dart';
 import 'package:crypto_vault/widgets/wide_button.dart';
 import 'package:crypto_vault/widgets/scroll_column_expandable.dart';
@@ -39,7 +39,6 @@ class _LocalLoginScreenState extends State<LocalLoginScreen> {
   bool _showPass = false;
 
   final LocalAuthentication _fingerprintAuth = LocalAuthentication();
-  String _fingerprintMessage = 'Not Authorized';
 
   _LocalLoginScreenState() {
     _timer = Timer(const Duration(milliseconds: 1000), () {
@@ -155,7 +154,7 @@ class _LocalLoginScreenState extends State<LocalLoginScreen> {
 
     if (_localAuthProvider.isAuthenticated) {
       SchedulerBinding.instance.addPostFrameCallback((_) {
-        Navigator.of(ctx).pushReplacementNamed(HomePage.routeName);
+        Navigator.of(ctx).pushReplacementNamed(MainScreen.routeName);
       });
     }
   }

@@ -4,51 +4,22 @@ import 'package:provider/provider.dart';
 
 import 'package:crypto_vault/providers/local_auth.dart';
 
-class HomePage extends StatefulWidget {
-  HomePage({Key key, this.title}) : super(key: key);
-
-  static const routeName = '/home';
-  final String title;
+class HomeScreen extends StatefulWidget {
+  static const screenName = 'Home';
 
   @override
-  _HomePageState createState() => _HomePageState();
+  _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomePageState extends State<HomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     // print(Provider.of<LocalAuth>(context, listen: false).isAuthenticated);
     // print(Provider.of<LocalAuth>(context, listen: false).masterPw);
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
+    return Center(
+      child: Text(
+        'Home Screen',
+        style: Theme.of(context).textTheme.headline5,
       ),
     );
   }

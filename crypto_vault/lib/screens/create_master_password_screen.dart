@@ -12,7 +12,7 @@ import 'package:crypto_vault/providers/local_auth.dart';
 import 'package:crypto_vault/widgets/input_field.dart';
 import 'package:crypto_vault/widgets/wide_button.dart';
 import 'package:crypto_vault/widgets/scroll_column_expandable.dart';
-import 'package:crypto_vault/screens/home_screen.dart';
+import 'package:crypto_vault/screens/main_screen.dart';
 
 class CreateMasterPasswordScreen extends StatefulWidget {
   static const routeName = '/createMasterPassword';
@@ -121,7 +121,7 @@ class _CreateMasterPasswordScreenState
     }
 
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      Navigator.of(ctx).pushReplacementNamed(HomePage.routeName);
+      Navigator.of(ctx).pushReplacementNamed(MainScreen.routeName);
     });
 
     final String _pw = _masterPwController.text;
