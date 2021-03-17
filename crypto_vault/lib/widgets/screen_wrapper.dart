@@ -31,9 +31,9 @@ class _ScreenWrapperState extends State<ScreenWrapper> {
   @override
   Widget build(BuildContext context) {
     if (widget.isDrawerOpen) {
-      _xOffset = 230;
-      _yOffset = 150;
-      _scaleFactor = 0.6;
+      _xOffset = 250;
+      _yOffset = 120;
+      _scaleFactor = 0.7;
     } else {
       _xOffset = 0;
       _yOffset = 0;

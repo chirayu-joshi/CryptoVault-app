@@ -45,7 +45,7 @@ class DrawerScreen extends StatelessWidget {
             ),
           ),
           Container(
-            width: 196,
+            width: 216,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: _drawerItems,
