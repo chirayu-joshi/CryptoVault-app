@@ -4,12 +4,12 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 import 'package:crypto_vault/constants.dart';
 
-class CustomFABIcon extends StatefulWidget {
+class CustomFAB extends StatefulWidget {
   @override
-  _CustomFABIconState createState() => _CustomFABIconState();
+  _CustomFABState createState() => _CustomFABState();
 }
 
-class _CustomFABIconState extends State<CustomFABIcon> {
+class _CustomFABState extends State<CustomFAB> {
   bool isFABOpen = false;
 
   @override
