@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:crypto_vault/constants.dart';
 import 'package:crypto_vault/widgets/drawer_icon.dart';
 import 'package:crypto_vault/widgets/custom_tab_indicator.dart';
-import 'package:crypto_vault/widgets/custom_fab_icon.dart';
+import 'package:crypto_vault/widgets/all_items.dart';
+import 'package:crypto_vault/widgets/passwords.dart';
+import 'package:crypto_vault/widgets/notes.dart';
+import 'package:crypto_vault/widgets/custom_fab.dart';
 
 class HomeScreen extends StatefulWidget {
   static const screenName = 'Home';
@@ -54,27 +57,16 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               Expanded(
                 child: Container(
-                  margin: EdgeInsets.symmetric(horizontal: 32),
+                  margin: EdgeInsets.only(
+                    top: 8,
+                    right: 24,
+                    left: 24,
+                  ),
                   child: TabBarView(
                     children: [
-                      Center(
-                        child: Text(
-                          'All Passwords and Notes',
-                          style: Theme.of(context).textTheme.headline6,
-                        ),
-                      ),
-                      Center(
-                        child: Text(
-                          'Passwords',
-                          style: Theme.of(context).textTheme.headline6,
-                        ),
-                      ),
-                      Center(
-                        child: Text(
-                          'Secure Notes',
-                          style: Theme.of(context).textTheme.headline6,
-                        ),
-                      ),
+                      AllItems(),
+                      PasswordsWidget(),
+                      NotesWidget(),
                     ],
                   ),
                 ),
@@ -85,7 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
         Positioned(
           bottom: 24,
           right: 24,
-          child: CustomFABIcon(),
+          child: CustomFAB(),
         ),
       ],
     );

@@ -6,6 +6,8 @@ import 'package:provider/provider.dart';
 import 'package:crypto_vault/app_theme.dart';
 import 'package:crypto_vault/providers/local_auth.dart';
 import 'package:crypto_vault/providers/screens.dart';
+import 'package:crypto_vault/providers/passwords.dart';
+import 'package:crypto_vault/providers/notes.dart';
 import 'package:crypto_vault/screens/splash_screen.dart';
 import 'package:crypto_vault/routes.dart';
 
@@ -31,6 +33,8 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (ctx) => LocalAuth()),
         ChangeNotifierProvider(create: (ctx) => Screens()),
+        ChangeNotifierProvider(create: (ctx) => Passwords()),
+        ChangeNotifierProvider(create: (ctx) => Notes()),
       ],
       child: MaterialApp(
         title: 'Crypto Vault',
