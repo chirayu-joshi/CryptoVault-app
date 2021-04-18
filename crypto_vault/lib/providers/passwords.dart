@@ -29,4 +29,15 @@ class Passwords with ChangeNotifier {
   List<Password> get pwList {
     return [..._pwList];
   }
+
+  void addPassword(String email, String encryptedPw, String title) {
+    _pwList.add(
+      Password(
+        email: email,
+        encryptedPw: encryptedPw,
+        title: title,
+      ),
+    );
+    notifyListeners();
+  }
 }

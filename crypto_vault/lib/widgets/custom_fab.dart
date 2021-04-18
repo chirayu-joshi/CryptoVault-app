@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:hive/hive.dart';
 
 import 'package:crypto_vault/constants.dart';
+import 'package:crypto_vault/models/password.dart';
 
 class CustomFAB extends StatefulWidget {
   @override
@@ -52,7 +54,40 @@ class _CustomFABState extends State<CustomFAB> {
             child: Icon(Icons.vpn_key),
             label: 'Add Password',
             onTap: () {
-              print('Add password');
+              // TODO: Update this method.
+              var box = Hive.box<Password>('passwords');
+              box.put(
+                'chirayu@gmail.comgmail',
+                Password(
+                  email: 'chirayu@gmail.com',
+                  encryptedPw: 'kdh423#@%5:""',
+                  title: 'Gmail',
+                ),
+              );
+              box.put(
+                '18it007@charusat.edu.ingmail',
+                Password(
+                  email: '18it007@charusat.edu.in',
+                  encryptedPw: 'poiu!@#432@^"[}."',
+                  title: 'Gmail',
+                ),
+              );
+              box.put(
+                'chirayu@facebook.comfacebook',
+                Password(
+                  email: 'chirayu@facebook.com',
+                  encryptedPw: 'uirh@#^&*(345',
+                  title: 'Facebook',
+                ),
+              );
+              box.put(
+                'chirayu@linkedin.comlinkedin',
+                Password(
+                  email: 'chirayu@linkedin.com',
+                  encryptedPw: '65-09_#@@!*(*&({|,',
+                  title: 'LinkedIn',
+                ),
+              );
             },
           ),
         ],
