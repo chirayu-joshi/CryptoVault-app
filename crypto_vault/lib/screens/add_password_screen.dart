@@ -51,7 +51,9 @@ class _AddPasswordScreenState extends State<AddPasswordScreen> {
   }
 
   void _onPasswordSave(BuildContext ctx) {
-    if (_titleController.text == '' || _emailController.text == '' || _pwController.text == '') {
+    if (_titleController.text == '' ||
+        _emailController.text == '' ||
+        _pwController.text == '') {
       ScaffoldMessenger.of(ctx).showSnackBar(
         SnackBar(content: Text('Title, Email and Password are required')),
       );
@@ -124,88 +126,91 @@ class _AddPasswordScreenState extends State<AddPasswordScreen> {
           color: Theme.of(context).textTheme.headline6.color,
         ),
       ),
-      body: Container(
-        color: backgroundColorDark,
-        padding: EdgeInsets.all(16),
-        child: Column(
-          children: <Widget>[
-            SizedBox(
-              height: 16,
-            ),
-            InputField(
-              hintText: 'Title',
-              controller: _titleController,
-              prefixIcon: Icon(Icons.title),
-              textInputAction: TextInputAction.next,
-              onSubmitted: () {
-                _usernameFocusNode.requestFocus();
-              },
-            ),
-            SizedBox(
-              height: 16,
-            ),
-            InputField(
-              hintText: 'Username',
-              controller: _usernameController,
-              prefixIcon: Icon(Icons.account_circle_outlined),
-              textInputAction: TextInputAction.next,
-              focusNode: _usernameFocusNode,
-              onSubmitted: () {
-                _emailFocusNode.requestFocus();
-              },
-            ),
-            SizedBox(
-              height: 16,
-            ),
-            InputField(
-              hintText: 'Email',
-              controller: _emailController,
-              prefixIcon: Icon(Icons.email_outlined),
-              textInputAction: TextInputAction.next,
-              focusNode: _emailFocusNode,
-              onSubmitted: () {
-                _pwFocusNode.requestFocus();
-              },
-            ),
-            SizedBox(
-              height: 16,
-            ),
-            InputField(
-              prefixIcon: Icon(Icons.vpn_key_outlined),
-              hintText: 'Password',
-              controller: _pwController,
-              textInputAction: TextInputAction.next,
-              focusNode: _pwFocusNode,
-              suffixIcon: TextButton(
-                onPressed: () async {
-                  final generatedPw = await Navigator.of(context).push(
-                    MaterialPageRoute(builder: (_) => GeneratePasswordScreen()),
-                  );
-                  _pwController.text = generatedPw;
-                },
-                child: const Padding(
-                  child: const Text(
-                    'GENERATE',
-                  ),
-                  padding: const EdgeInsets.only(right: 8),
-                ),
+      body: SingleChildScrollView(
+        child: Container(
+          color: backgroundColorDark,
+          padding: EdgeInsets.all(16),
+          child: Column(
+            children: <Widget>[
+              SizedBox(
+                height: 16,
               ),
-              onSubmitted: () {
-                _webURLFocusNode.requestFocus();
-              },
-            ),
-            SizedBox(
-              height: 16,
-            ),
-            InputField(
-              hintText: 'Website URL',
-              controller: _webURLController,
-              prefixIcon: Icon(Icons.language),
-              textInputAction: TextInputAction.done,
-              focusNode: _webURLFocusNode,
-              onSubmitted: () => _onPasswordSave(context),
-            ),
-          ],
+              InputField(
+                hintText: 'Title',
+                controller: _titleController,
+                prefixIcon: Icon(Icons.title),
+                textInputAction: TextInputAction.next,
+                onSubmitted: () {
+                  _usernameFocusNode.requestFocus();
+                },
+              ),
+              SizedBox(
+                height: 16,
+              ),
+              InputField(
+                hintText: 'Username',
+                controller: _usernameController,
+                prefixIcon: Icon(Icons.account_circle_outlined),
+                textInputAction: TextInputAction.next,
+                focusNode: _usernameFocusNode,
+                onSubmitted: () {
+                  _emailFocusNode.requestFocus();
+                },
+              ),
+              SizedBox(
+                height: 16,
+              ),
+              InputField(
+                hintText: 'Email',
+                controller: _emailController,
+                prefixIcon: Icon(Icons.email_outlined),
+                textInputAction: TextInputAction.next,
+                focusNode: _emailFocusNode,
+                onSubmitted: () {
+                  _pwFocusNode.requestFocus();
+                },
+              ),
+              SizedBox(
+                height: 16,
+              ),
+              InputField(
+                prefixIcon: Icon(Icons.vpn_key_outlined),
+                hintText: 'Password',
+                controller: _pwController,
+                textInputAction: TextInputAction.next,
+                focusNode: _pwFocusNode,
+                suffixIcon: TextButton(
+                  onPressed: () async {
+                    final generatedPw = await Navigator.of(context).push(
+                      MaterialPageRoute(
+                          builder: (_) => GeneratePasswordScreen()),
+                    );
+                    _pwController.text = generatedPw;
+                  },
+                  child: const Padding(
+                    child: const Text(
+                      'GENERATE',
+                    ),
+                    padding: const EdgeInsets.only(right: 8),
+                  ),
+                ),
+                onSubmitted: () {
+                  _webURLFocusNode.requestFocus();
+                },
+              ),
+              SizedBox(
+                height: 16,
+              ),
+              InputField(
+                hintText: 'Website URL',
+                controller: _webURLController,
+                prefixIcon: Icon(Icons.language),
+                textInputAction: TextInputAction.done,
+                focusNode: _webURLFocusNode,
+                onSubmitted: () => _onPasswordSave(context),
+              ),
+            ],
+          ),
         ),
       ),
     );

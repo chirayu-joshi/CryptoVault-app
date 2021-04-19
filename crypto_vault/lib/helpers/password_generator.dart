@@ -34,7 +34,7 @@ class PasswordGenerator {
       allowedChars += '01234567890123456789012345678901234567890123456789';
     }
     if (hasSymbols) {
-      allowedChars += '@#=+!^*-_;:\'"/?.,<>~`\\\$%&?[](){}!@#\$%^&*()-_=+';
+      allowedChars += '@#=+!^*-_;:"/?.,<>~`\\\$%&?[](){}!@#\$%^&*()-_=+/\\';
     }
 
     Random rand = Random.secure();
@@ -51,6 +51,21 @@ class PasswordGenerator {
   }
 
   static PasswordStrength getPwStrength(String pw) {
+    int strength = 1;
+    if (pw.length >= 12) {
+      ++strength;
+    }
+    if (pw.contains(RegExp(r'[0-9]'))) {
+      print('has digits');
+      ++strength;
+    }
+    if (pw.contains(RegExp(r'[-!$%^&*()_+|~=`{}\[\]:";<>?,.\/]'))) {
+      print('has symbols');
+      ++strength;
+    }
+    if (strength == 1) return PasswordStrength.poor;
+    if (strength == 2) return PasswordStrength.weak;
+    if (strength == 3) return PasswordStrength.good;
     return PasswordStrength.excellent;
   }
 }
