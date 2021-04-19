@@ -21,7 +21,7 @@ class LocalAuth with ChangeNotifier {
 
   Future<void> login(String pw) async {
     SharedPreferences _prefs = await SharedPreferences.getInstance();
-    String _pwHash = await _prefs.get('pwHash');
+    String _pwHash = _prefs.get('pwHash');
 
     bool _isPwMatch = await FlutterBcrypt.verify(password: pw, hash: _pwHash);
     if (_isPwMatch) {

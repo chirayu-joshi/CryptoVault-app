@@ -33,6 +33,7 @@ dependencies:
   hive: ^2.0.3
   hive_flutter: ^1.0.0
   flutter_secure_storage: ^4.1.0
+  encrypt: ^5.0.0
 
 
   # The following adds the Cupertino Icons font to your application.

@@ -42,7 +42,12 @@ class _GeneratePasswordScreenState extends State<GeneratePasswordScreen> {
         backgroundColor: _getThemeColor(),
         elevation: 0,
         actions: <Widget>[
-          IconButton(icon: Icon(Icons.done), onPressed: () {}),
+          IconButton(
+            icon: Icon(Icons.done),
+            onPressed: () {
+              Navigator.of(context).pop(_currPw);
+            },
+          ),
         ],
       ),
       body: Column(
@@ -131,15 +136,15 @@ class _GeneratePasswordScreenState extends State<GeneratePasswordScreen> {
                           Row(
                             children: <Widget>[
                               Text(
-                                '4',
+                                '8',
                                 style: Theme.of(context).textTheme.bodyText1,
                               ),
                               Expanded(
                                 child: CustomSlider(
                                   value: _currPw.length.toDouble(),
-                                  min: 4,
+                                  min: 8,
                                   max: 64,
-                                  divisions: 60,
+                                  divisions: 56,
                                   activeColor: _getThemeColor(),
                                   label: _currPw.length.toString(),
                                   onChanged: (double value) {

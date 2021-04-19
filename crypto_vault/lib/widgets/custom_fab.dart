@@ -53,6 +53,7 @@ class _CustomFABState extends State<CustomFAB> {
                   email: 'chirayu@gmail.com',
                   encryptedPw: 'kdh423#@%5:""',
                   title: 'Gmail',
+                  iv: '',
                 ),
               );
               box.put(
@@ -61,6 +62,7 @@ class _CustomFABState extends State<CustomFAB> {
                   email: '18it007@charusat.edu.in',
                   encryptedPw: 'poiu!@#432@^"[}."',
                   title: 'Gmail',
+                  iv: '',
                 ),
               );
               box.put(
@@ -69,6 +71,7 @@ class _CustomFABState extends State<CustomFAB> {
                   email: 'chirayu@facebook.com',
                   encryptedPw: 'uirh@#^&*(345',
                   title: 'Facebook',
+                  iv: '',
                 ),
               );
               box.put(
@@ -77,6 +80,7 @@ class _CustomFABState extends State<CustomFAB> {
                   email: 'chirayu@linkedin.com',
                   encryptedPw: '65-09_#@@!*(*&({|,',
                   title: 'LinkedIn',
+                  iv: '',
                 ),
               );
             },

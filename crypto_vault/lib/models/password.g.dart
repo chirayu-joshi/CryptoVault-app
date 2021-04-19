@@ -17,9 +17,10 @@ class PasswordAdapter extends TypeAdapter<Password> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Password(
+      title: fields[1] as String,
       email: fields[0] as String,
       encryptedPw: fields[3] as String,
-      title: fields[1] as String,
+      iv: fields[6] as String,
     )
       ..username = fields[2] as String
       ..isFavourite = fields[4] as bool
@@ -29,7 +30,7 @@ class PasswordAdapter extends TypeAdapter<Password> {
   @override
   void write(BinaryWriter writer, Password obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(7)
       ..writeByte(0)
       ..write(obj.email)
       ..writeByte(1)
@@ -41,7 +42,9 @@ class PasswordAdapter extends TypeAdapter<Password> {
       ..writeByte(4)
       ..write(obj.isFavourite)
       ..writeByte(5)
-      ..write(obj.websiteURL);
+      ..write(obj.websiteURL)
+      ..writeByte(6)
+      ..write(obj.iv);
   }
 
   @override

@@ -1,16 +1,23 @@
+import 'package:flutter/services.dart';
+
 import 'package:flutter/material.dart';
 
 import 'package:crypto_vault/constants.dart';
+import 'package:crypto_vault/models/password.dart';
 
 class ItemCard extends StatelessWidget {
   final String title;
   final String description;
   final String type;
+  final String masterPw;
+  final Password password;
 
   ItemCard({
     @required this.title,
     @required description,
     @required this.type,
+    @required this.masterPw,
+    this.password,
   }) : this.description = description.replaceAll('\n', '\t');
 
   @override
@@ -87,7 +94,21 @@ class ItemCard extends StatelessWidget {
                     size: 22,
                   ),
                   color: textLight,
-                  onPressed: () {},
+                  onPressed: () {
+                    Clipboard.setData(
+                      ClipboardData(
+                        text: password.getDecryptedPassword(masterPw),
+                      ),
+                    );
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          'Password Copied to Clipboard!',
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ),
             ),
