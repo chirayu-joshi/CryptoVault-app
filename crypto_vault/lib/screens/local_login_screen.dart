@@ -192,7 +192,7 @@ class _LocalLoginScreenState extends State<LocalLoginScreen> {
           Container(
             color: Theme.of(context).canvasColor,
             width: double.infinity,
-            padding: EdgeInsets.symmetric(horizontal: 40),
+            padding: const EdgeInsets.symmetric(horizontal: 40),
             child: Column(
               children: <Widget>[
                 SizedBox(

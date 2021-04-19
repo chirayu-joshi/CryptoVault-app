@@ -11,3 +11,8 @@ const textDark = Color(0xff50607f);
 
 const blue = Color(0xff149bfe);
 const purple = Color(0xffb76ffb);
+
+const red = Color(0xffD50000);
+const amber = Color(0xffFFAB00);
+const lime = Color(0xffAEEA00);
+const green = Color(0xff00C853);

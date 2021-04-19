@@ -5,6 +5,7 @@ import 'package:hive/hive.dart';
 
 import 'package:crypto_vault/constants.dart';
 import 'package:crypto_vault/models/password.dart';
+import 'package:crypto_vault/screens/add_password_screen.dart';
 
 class CustomFAB extends StatefulWidget {
   @override
@@ -45,16 +46,6 @@ class _CustomFABState extends State<CustomFAB> {
             label: 'Add Note',
             onTap: () {
               print('Add note');
-            },
-          ),
-          SpeedDialChild(
-            backgroundColor: blue,
-            labelBackgroundColor: blue,
-            labelStyle: TextStyle(color: Colors.black),
-            child: Icon(Icons.vpn_key),
-            label: 'Add Password',
-            onTap: () {
-              // TODO: Update this method.
               var box = Hive.box<Password>('passwords');
               box.put(
                 'chirayu@gmail.comgmail',
@@ -88,6 +79,18 @@ class _CustomFABState extends State<CustomFAB> {
                   title: 'LinkedIn',
                 ),
               );
+            },
+          ),
+          SpeedDialChild(
+            backgroundColor: blue,
+            labelBackgroundColor: blue,
+            labelStyle: TextStyle(color: Colors.black),
+            child: Icon(Icons.vpn_key),
+            label: 'Add Password',
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+                return AddPasswordScreen();
+              }));
             },
           ),
         ],
