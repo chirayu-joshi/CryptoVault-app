@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:hive/hive.dart';
 
 import 'package:crypto_vault/constants.dart';
-import 'package:crypto_vault/models/password.dart';
 import 'package:crypto_vault/screens/add_password_screen.dart';
+import 'package:crypto_vault/screens/add_note_screen.dart';
 
 class CustomFAB extends StatefulWidget {
   @override
@@ -45,7 +44,9 @@ class _CustomFABState extends State<CustomFAB> {
             child: Icon(Icons.note),
             label: 'Add Note',
             onTap: () {
-              print('Add note');
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (_) => AddNoteScreen(),
+              ));
             },
           ),
           SpeedDialChild(
@@ -55,9 +56,9 @@ class _CustomFABState extends State<CustomFAB> {
             child: Icon(Icons.vpn_key),
             label: 'Add Password',
             onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-                return AddPasswordScreen();
-              }));
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (_) => AddPasswordScreen(),
+              ));
             },
           ),
         ],

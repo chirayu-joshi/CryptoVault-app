@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 
 import 'package:hive/hive.dart';
 import 'package:encrypt/encrypt.dart' as enc;
-import 'package:provider/provider.dart';
 
 /*
 * Use command "flutter packages pub run build_runner build" to
@@ -60,4 +59,5 @@ class Password {
 
     return encrypter.decrypt64(encryptedPw, iv: enc.IV.fromBase64(iv));
   }
+
 }

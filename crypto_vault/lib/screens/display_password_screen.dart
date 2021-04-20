@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'package:crypto_vault/constants.dart';
 import 'package:crypto_vault/models/password.dart';
@@ -21,10 +22,6 @@ class DisplayPasswordScreen extends StatefulWidget {
 }
 
 class _DisplayPasswordScreenState extends State<DisplayPasswordScreen> {
-  /*
-  * Body: username, email, password, website url
-  * */
-
   Timer _timer;
 
   int _pageState = 0;
@@ -211,6 +208,13 @@ class _DisplayPasswordScreenState extends State<DisplayPasswordScreen> {
                   TitleDescriptionTile(
                     title: 'Website URL',
                     description: widget.password.websiteURL,
+                    actionButton: IconButton(
+                      icon: Icon(Icons.open_in_new),
+                      onPressed: () async => await canLaunch(
+                              'http://' + widget.password.websiteURL)
+                          ? await launch('http://' + widget.password.websiteURL)
+                          : throw "Couldn't launch the URL",
+                    ),
                   ),
               ],
             ),

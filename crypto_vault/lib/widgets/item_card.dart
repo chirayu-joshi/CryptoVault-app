@@ -42,7 +42,7 @@ class ItemCard extends StatelessWidget {
               if (type == 'Password') {
                 return DisplayPasswordScreen(password: password);
               }
-              return DisplayNoteScreen(note: note);
+              return DisplayNoteScreen(note: note, masterPw: masterPw);
             },
           ),
         );

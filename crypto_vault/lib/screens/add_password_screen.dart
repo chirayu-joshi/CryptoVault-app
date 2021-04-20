@@ -101,6 +101,10 @@ class _AddPasswordScreenState extends State<AddPasswordScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: backgroundColorLight,
+        iconTheme: IconThemeData(
+          color: Theme.of(context).textTheme.headline6.color,
+        ),
         title: Text(
           'Add Password',
           style: Theme.of(context).textTheme.headline6,
@@ -121,10 +125,6 @@ class _AddPasswordScreenState extends State<AddPasswordScreen> {
             ),
           ),
         ],
-        backgroundColor: backgroundColorLight,
-        iconTheme: IconThemeData(
-          color: Theme.of(context).textTheme.headline6.color,
-        ),
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -194,7 +194,7 @@ class _AddPasswordScreenState extends State<AddPasswordScreen> {
                     padding: const EdgeInsets.only(right: 8),
                   ),
                 ),
-                onSubmitted: () {
+                onSubmitted: (value) {
                   _webURLFocusNode.requestFocus();
                 },
               ),

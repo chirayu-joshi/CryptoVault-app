@@ -10,8 +10,8 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 import 'package:crypto_vault/providers/local_auth.dart';
 import 'package:crypto_vault/providers/screens.dart';
-import 'package:crypto_vault/providers/notes.dart';
 import 'package:crypto_vault/models/password.dart';
+import 'package:crypto_vault/models/note.dart';
 import 'package:crypto_vault/screens/splash_screen.dart';
 import 'package:crypto_vault/app_theme.dart';
 import 'package:crypto_vault/routes.dart';
@@ -41,8 +41,13 @@ void main() async {
 
   await Hive.initFlutter();
   Hive.registerAdapter(PasswordAdapter());
+  Hive.registerAdapter(NoteAdapter());
   await Hive.openBox<Password>(
     'passwords',
+    encryptionCipher: HiveAesCipher(encryptionKey),
+  );
+  await Hive.openBox<Note>(
+    'notes',
     encryptionCipher: HiveAesCipher(encryptionKey),
   );
 
@@ -56,7 +61,6 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (ctx) => LocalAuth()),
         ChangeNotifierProvider(create: (ctx) => Screens()),
-        ChangeNotifierProvider(create: (ctx) => Notes()),
       ],
       child: MaterialApp(
         title: 'Crypto Vault',

@@ -13,9 +13,9 @@ class PasswordsWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final localAuthProvider = Provider.of<LocalAuth>(context, listen: false);
 
-    return WatchBoxBuilder(
-      box: Hive.box<Password>('passwords'),
-      builder: (context, passwordsBox) {
+    return ValueListenableBuilder(
+      valueListenable: Hive.box<Password>('passwords').listenable(),
+      builder: (context, passwordsBox, _) {
         final List<Password> _pwList = passwordsBox.values.toList();
         Map<String, List<ItemCard>> _pwMap = {};
 
