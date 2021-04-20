@@ -2,13 +2,17 @@ import 'package:flutter/material.dart';
 
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:provider/provider.dart';
 
 import 'package:crypto_vault/models/password.dart';
 import 'package:crypto_vault/widgets/item_card.dart';
+import 'package:crypto_vault/providers/local_auth.dart';
 
 class PasswordsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final localAuthProvider = Provider.of<LocalAuth>(context, listen: false);
+
     return WatchBoxBuilder(
       box: Hive.box<Password>('passwords'),
       builder: (context, passwordsBox) {
@@ -22,6 +26,7 @@ class PasswordsWidget extends StatelessWidget {
                 title: pw.title,
                 description: pw.email,
                 type: 'Password',
+                masterPw: localAuthProvider.masterPw,
               ),
             );
           } else {
@@ -31,6 +36,7 @@ class PasswordsWidget extends StatelessWidget {
                 title: pw.title,
                 description: pw.email,
                 type: 'Password',
+                masterPw: localAuthProvider.masterPw,
               ),
             );
             _pwMap[pw.title[0].toLowerCase()] = _itemCardList;

@@ -128,7 +128,6 @@ class _AddPasswordScreenState extends State<AddPasswordScreen> {
       ),
       body: SingleChildScrollView(
         child: Container(
-          color: backgroundColorDark,
           padding: EdgeInsets.all(16),
           child: Column(
             children: <Widget>[
@@ -183,7 +182,8 @@ class _AddPasswordScreenState extends State<AddPasswordScreen> {
                   onPressed: () async {
                     final generatedPw = await Navigator.of(context).push(
                       MaterialPageRoute(
-                          builder: (_) => GeneratePasswordScreen()),
+                        builder: (_) => GeneratePasswordScreen(),
+                      ),
                     );
                     _pwController.text = generatedPw;
                   },

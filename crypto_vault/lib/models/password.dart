@@ -13,12 +13,6 @@ part 'password.g.dart';
 @HiveType(typeId: 1)
 class Password {
 
-  /* Structure of password screen:
-  * App bar: star, edit, delete
-  * Title: icon, title
-  * Body: username, email, password, website url
-  * */
-
   // Key = email + title
 
   @HiveField(0)
@@ -34,7 +28,7 @@ class Password {
   final String encryptedPw; // base64 version. Use encrypter.decrypt64()
 
   @HiveField(4)
-  bool isFavourite;
+  bool isFavourite = false;
 
   @HiveField(5)
   String websiteURL;
