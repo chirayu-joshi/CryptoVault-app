@@ -26,6 +26,7 @@ class PasswordsWidget extends StatelessWidget {
                 title: pw.title,
                 description: pw.email,
                 type: 'Password',
+                password: pw,
                 masterPw: localAuthProvider.masterPw,
               ),
             );
@@ -36,6 +37,7 @@ class PasswordsWidget extends StatelessWidget {
                 title: pw.title,
                 description: pw.email,
                 type: 'Password',
+                password: pw,
                 masterPw: localAuthProvider.masterPw,
               ),
             );

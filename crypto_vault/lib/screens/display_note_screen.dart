@@ -19,7 +19,6 @@ class DisplayNoteScreen extends StatefulWidget {
 
 class _DisplayNoteScreenState extends State<DisplayNoteScreen> {
   bool _isInEditMode = false;
-  bool _shouldDelete = false;
   bool _isFavourite;
 
   final _titleController = TextEditingController();
@@ -174,8 +173,8 @@ class _DisplayNoteScreenState extends State<DisplayNoteScreen> {
               onPressed: () {
                 setState(() {
                   _isFavourite = !_isFavourite;
-                  _onNoteUpdate(context);
                 });
+                _onNoteUpdate(context);
               },
             ),
           if (!_isInEditMode)

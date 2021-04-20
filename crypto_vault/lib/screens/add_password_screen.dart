@@ -89,8 +89,18 @@ class _AddPasswordScreenState extends State<AddPasswordScreen> {
     if (_webURLController.text != '')
       passwordModel.websiteURL = _webURLController.text;
 
+    if (passwordBox
+        .containsKey(_emailController.text + _titleController.text)) {
+      ScaffoldMessenger.of(ctx).showSnackBar(
+        SnackBar(
+          content: Text('Email already exist for ' + _titleController.text),
+        ),
+      );
+      return;
+    }
+
     passwordBox.put(
-      _emailController.text + _pwController.text,
+      _emailController.text + _titleController.text,
       passwordModel,
     );
 

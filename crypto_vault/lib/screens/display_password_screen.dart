@@ -1,10 +1,12 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:hive/hive.dart';
 
 import 'package:crypto_vault/constants.dart';
 import 'package:crypto_vault/models/password.dart';
@@ -32,8 +34,7 @@ class _DisplayPasswordScreenState extends State<DisplayPasswordScreen> {
 
   bool _isKeyboardOpen = false;
 
-  bool _isInEditMode = false;
-  bool _shouldDelete = false;
+  bool _isFavourite;
 
   String _plainPw = '';
 
@@ -46,9 +47,26 @@ class _DisplayPasswordScreenState extends State<DisplayPasswordScreen> {
   }
 
   @override
+  void initState() {
+    _isFavourite = widget.password.isFavourite;
+    super.initState();
+  }
+
+  @override
   void dispose() {
     _timer.cancel();
     super.dispose();
+  }
+
+  void _toggleFavourite(BuildContext ctx) {
+    final passwordBox = Hive.box<Password>('passwords');
+    widget.password.isFavourite = _isFavourite;
+
+    passwordBox.delete(widget.password.email + widget.password.title);
+    passwordBox.put(
+      widget.password.email + widget.password.title,
+      widget.password,
+    );
   }
 
   @override
@@ -83,22 +101,44 @@ class _DisplayPasswordScreenState extends State<DisplayPasswordScreen> {
         elevation: 0,
         actions: <Widget>[
           IconButton(
-            icon: Icon(
-              widget.password.isFavourite ? Icons.star : Icons.star_border,
-            ),
-            onPressed: () {},
+            icon: Icon(_isFavourite ? Icons.star : Icons.star_border),
+            onPressed: () {
+              setState(() {
+                _isFavourite = !_isFavourite;
+              });
+              _toggleFavourite(context);
+            },
           ),
           IconButton(
-            icon: Icon(
-              _isInEditMode ? Icons.edit : Icons.edit_outlined,
-            ),
-            onPressed: () {},
-          ),
-          IconButton(
-            icon: Icon(
-              _shouldDelete ? Icons.delete : Icons.delete_outline,
-            ),
-            onPressed: () {},
+            icon: Icon(Icons.delete_outline),
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) => CupertinoAlertDialog(
+                  title: Text('Delete?'),
+                  content: Text('Do you wish to delete this password?'),
+                  actions: <Widget>[
+                    CupertinoDialogAction(
+                      child: Text("NO"),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                    CupertinoDialogAction(
+                      child: Text("YES"),
+                      isDefaultAction: true,
+                      onPressed: () {
+                        Hive.box<Password>('passwords').delete(
+                          widget.password.email + widget.password.title,
+                        );
+                        Navigator.of(context).pop();
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ],
+                ),
+              );
+            },
           ),
         ],
       ),
