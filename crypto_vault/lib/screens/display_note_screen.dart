@@ -237,11 +237,13 @@ class _DisplayNoteScreenState extends State<DisplayNoteScreen> {
             padding: const EdgeInsets.only(top: 8, right: 16, left: 16),
             child: _titleWidget,
           ),
-          SingleChildScrollView(
-            child: Container(
-              width: double.infinity,
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: _contentWidget,
+          Expanded(
+            child: SingleChildScrollView(
+              child: Container(
+                width: double.infinity,
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                child: _contentWidget,
+              ),
             ),
           ),
         ],

@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:crypto_vault/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -7,6 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:http/http.dart' as http;
 
 import 'package:crypto_vault/providers/local_auth.dart';
 import 'package:crypto_vault/providers/screens.dart';
@@ -15,6 +18,7 @@ import 'package:crypto_vault/models/note.dart';
 import 'package:crypto_vault/screens/splash_screen.dart';
 import 'package:crypto_vault/app_theme.dart';
 import 'package:crypto_vault/routes.dart';
+import 'package:crypto_vault/http_overrides.dart';
 
 void main() async {
   SystemChrome.setSystemUIOverlayStyle(
@@ -50,6 +54,14 @@ void main() async {
     'notes',
     encryptionCipher: HiveAesCipher(encryptionKey),
   );
+
+  // TODO: Remove self signed certificate in production mode
+  HttpOverrides.global = CustomHttpOverrides();   // Allows all bad certificates
+  try {
+    print((await http.get(Uri.https(SERVER_IP, '/m/api/v1'))).body);
+  } catch (_) {
+    print('Cannot send request');
+  }
 
   runApp(MyApp());
 }

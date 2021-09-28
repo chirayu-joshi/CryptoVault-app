@@ -56,11 +56,11 @@ class PasswordGenerator {
       ++strength;
     }
     if (pw.contains(RegExp(r'[0-9]'))) {
-      print('has digits');
+      // print('has digits');
       ++strength;
     }
     if (pw.contains(RegExp(r'[-!$%^&*()_+|~=`{}\[\]:";<>?,.\/]'))) {
-      print('has symbols');
+      // print('has symbols');
       ++strength;
     }
     if (strength == 1) return PasswordStrength.poor;

@@ -54,6 +54,12 @@ class NotesWidget extends StatelessWidget {
           }
         }
 
+        if (_noteItemCardList.length == 0)
+          return Text(
+            'Nothing to show...',
+            textAlign: TextAlign.center,
+          );
+
         return ListView.builder(
           itemCount: _noteItemCardList.length,
           itemBuilder: (BuildContext ctx, int index) {

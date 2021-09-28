@@ -88,6 +88,12 @@ class AllItems extends StatelessWidget {
               }
             }
 
+            if (_allItemsList.length == 0)
+              return Text(
+                'Nothing to show...',
+                textAlign: TextAlign.center,
+              );
+
             return ListView.builder(
               itemCount: _allItemsList.length,
               itemBuilder: (BuildContext ctx, int index) {

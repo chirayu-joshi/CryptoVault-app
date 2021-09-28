@@ -16,3 +16,5 @@ const red = Color(0xffD50000);
 const amber = Color(0xffFFAB00);
 const lime = Color(0xffAEEA00);
 const green = Color(0xff00C853);
+
+const SERVER_IP = '192.168.43.159:8443';
